@@ -1,0 +1,8 @@
+.vercel
+.env*.local
+.env
+node_modules
+dist
+build
+.DS_Store
+report.xlsx

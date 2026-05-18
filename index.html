@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Mathan Kumar B | Education</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+  <script>
+    // Prevent right-click context menu
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+    // Prevent copying and cutting
+    document.addEventListener('copy', (e) => e.preventDefault());
+    document.addEventListener('cut', (e) => e.preventDefault());
+
+    // Prevent zooming via Keyboard (Ctrl + / Ctrl - / Ctrl 0)
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && (e.key === '=' || e.key === '-' || e.key === '+' || e.key === '0')) {
+        e.preventDefault();
+      }
+    });
+
+    // Prevent zooming via Mouse Wheel while Ctrl is pressed
+    document.addEventListener('wheel', (e) => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    // Extra layer to block double-click selection
+    document.addEventListener('mousedown', (e) => {
+      if (e.detail > 1) {
+        e.preventDefault();
+      }
+    }, false);
+  </script>
+</body>
+
+</html>
