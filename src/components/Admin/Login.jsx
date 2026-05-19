@@ -29,7 +29,7 @@ const Login = ({ onLogin }) => {
                         <div className="w-16 h-16 bg-sky-500 rounded-2xl flex items-center justify-center text-white mx-auto mb-4 shadow-lg shadow-sky-500/20">
                             <Lock size={32} />
                         </div>
-                        <h2 className="text-3xl font-black text-sky-950 tracking-tighter">Admin Login</h2>
+                        <h2 className="text-3xl font-black text-sky-950 tracking-tighter">Admin Login Page</h2>
                         <p className="text-sky-600/70 mt-2 font-medium">Access your portfolio dashboard</p>
                     </div>
 
