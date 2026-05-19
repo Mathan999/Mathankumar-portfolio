@@ -34,7 +34,7 @@ jobs:
 
     - name: Run Automation Script
       run: |
-        npm run dev &
+        npm run dev -- --host &
         npx wait-on http-get://127.0.0.1:5173
         python automation/test.py
       env:

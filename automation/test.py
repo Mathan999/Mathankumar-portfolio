@@ -81,6 +81,18 @@ def run_tests():
             textarea = driver.find_element(By.TAG_NAME, "textarea")
             textarea.send_keys("This is an automated test message.")
             add_result("Portfolio", "Message Field", "PASS", "Filled Message")
+            
+            # Click Send Message
+            send_btns = [b for b in driver.find_elements(By.TAG_NAME, "button") if "Send Message" in b.text]
+            if send_btns:
+                send_btns[0].click()
+                time.sleep(3)
+                if "Message sent successfully" in driver.page_source or "Failed to send message" not in driver.page_source:
+                    add_result("Portfolio", "Submit Contact Form", "PASS", "Form submitted successfully")
+                else:
+                    add_result("Portfolio", "Submit Contact Form", "FAIL", "Submission failed")
+            else:
+                add_result("Portfolio", "Submit Contact Form", "FAIL", "Send button not found")
         except Exception as e:
             add_result("Portfolio", "Message Field", "FAIL", "Could not fill message")
             
@@ -119,6 +131,56 @@ def run_tests():
                 page_source = driver.page_source
                 if "Admin Panel" in page_source or "Total Messages" in page_source or "Logout" in page_source:
                     add_result("Admin Site", "Login Authentication", "PASS", "Successfully logged into Admin")
+                    
+                    # End-to-end data test: Add a project and verify
+                    try:
+                        time.sleep(2)
+                        add_proj_btns = [b for b in driver.find_elements(By.TAG_NAME, "button") if "Add Project" in b.text]
+                        if add_proj_btns:
+                            add_proj_btns[0].click()
+                            time.sleep(2)
+                            
+                            # Fill Name
+                            name_input = driver.find_element(By.XPATH, "//input[@placeholder='Specific name of projects...']")
+                            name_input.send_keys("E2E Test Project")
+                            
+                            # Publish
+                            publish_btns = [b for b in driver.find_elements(By.TAG_NAME, "button") if "Publish Content" in b.text]
+                            if publish_btns:
+                                publish_btns[0].click()
+                                time.sleep(3)
+                                # Handle alert
+                                try:
+                                    alert = driver.switch_to.alert
+                                    alert.accept()
+                                    time.sleep(1)
+                                except:
+                                    pass
+                                
+                                # Verify it appears in Admin
+                                if "E2E Test Project" in driver.page_source:
+                                    add_result("Data Integration", "Frontend to Backend Write", "PASS", "Project saved and displayed")
+                                    
+                                    # Clean up
+                                    trash_btns = driver.find_elements(By.XPATH, "//*[local-name()='svg' and contains(@class, 'lucide-trash-2')]/..")
+                                    if len(trash_btns) > 0:
+                                        trash_btns[-1].click()
+                                        time.sleep(1)
+                                        try:
+                                            alert = driver.switch_to.alert
+                                            alert.accept()
+                                            time.sleep(1)
+                                        except:
+                                            pass
+                                        add_result("Data Integration", "Clean Up", "PASS", "Removed test project")
+                                else:
+                                    add_result("Data Integration", "Frontend to Backend Write", "FAIL", "Newly added project not visible")
+                            else:
+                                add_result("Data Integration", "Frontend to Backend Write", "FAIL", "Publish button not found")
+                        else:
+                            add_result("Data Integration", "Frontend to Backend Write", "FAIL", "Add Project button not found")
+                    except Exception as e:
+                        add_result("Data Integration", "End-to-End Test Error", "FAIL", str(e))
                 else:
                     if "Invalid" in page_source:
                         add_result("Admin Site", "Login Authentication", "FAIL", "Auth failed: Invalid credentials shown")
