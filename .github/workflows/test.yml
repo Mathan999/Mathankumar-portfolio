@@ -35,7 +35,7 @@ jobs:
     - name: Run Automation Script
       run: |
         npx vite --host &
-        npx wait-on http://127.0.0.1:5173
+        sleep 10
         python automation/test.py
       env:
         CI: true
