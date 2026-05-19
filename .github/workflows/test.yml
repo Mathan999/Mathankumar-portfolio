@@ -17,7 +17,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'
 
     - name: Install Frontend Dependencies
       run: npm install
@@ -34,8 +34,8 @@ jobs:
 
     - name: Run Automation Script
       run: |
-        npm run dev -- --host &
-        npx wait-on http-get://127.0.0.1:5173
+        npx vite --host &
+        npx wait-on http://127.0.0.1:5173
         python automation/test.py
       env:
         CI: true
