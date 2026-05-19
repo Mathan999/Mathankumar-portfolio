@@ -39,6 +39,7 @@ jobs:
         python automation/test.py
       env:
         CI: true
+        VITE_BREVO_API_KEY: ${{ secrets.VITE_BREVO_API_KEY }}
 
     - name: Upload Excel Test Report
       if: always()
