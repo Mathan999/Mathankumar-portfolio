@@ -22,14 +22,6 @@ jobs:
     - name: Install Frontend Dependencies
       run: npm install
 
-    - name: Start Vite Server
-      run: npm run dev &
-      env:
-        CI: true
-
-    - name: Wait for server to be ready
-      run: npx wait-on http://localhost:5173
-
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -41,7 +33,12 @@ jobs:
         pip install selenium openpyxl
 
     - name: Run Automation Script
-      run: python automation/test.py
+      run: |
+        npm run dev &
+        npx wait-on http-get://localhost:5173
+        python automation/test.py
+      env:
+        CI: true
 
     - name: Upload Excel Test Report
       if: always()
